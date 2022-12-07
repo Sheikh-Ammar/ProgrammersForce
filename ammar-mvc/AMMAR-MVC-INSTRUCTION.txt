@@ -1,0 +1,36 @@
+ammar-mvc folder must inside xampp/htdocs/
+
+**\*\*\*\***DATABASE**\*\*\*\***
+Make database and database name is sms and import sms.sql file
+
+XAMPP SERVER START
+Enter url in browser
+http://localhost/mvc/public/
+
++++++++++++app/core/App+++++++++++
+GET path from url and divide url into /controller/controllerMethod/parameters.
+
++++++++++++app/core/Controller+++++++++++
+Handle Db connection, model and view dynamically. Use in any controller through extends.
+
++++++++++++app/controllers+++++++++++
+Hnadle controllers by extends main controller class.
+
++++++++++++app/models+++++++++++
+All Models. User model becuz user table and varaiables create according to columns of table.
+
++++++++++++app/views+++++++++++
+Show all view pages. In Layouts i make header,navbar,footer template.
+
++++++++++++app/.htaccess+++++++++++
+If user hit url http://localhost/mvc/app/ it stop user show 403 | unauthorized not access this folder.
+
++++++++++++app/init+++++++++++
+Require once App and main Controller files.
+
++++++++++++app/css && app/js && app/images+++++++++++
+All CSS and JS files and Images
+
++++++++++++public/index.php+++++++++++
+Require once Init and make object of app class.
+
