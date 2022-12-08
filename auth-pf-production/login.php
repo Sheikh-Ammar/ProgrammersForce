@@ -34,8 +34,8 @@ if (!isset($_COOKIE['token'])) {
 
         echo json_encode(array('message' => 'User Login Successfully ' . $email, 'status' => 'true'));
         // SET TOKEN AND USER ID
-        setcookie($token, $tokenValue, time() + 180, "/"); // 7200
-        setcookie($id, $idValue, time() + 180, "/");
+        setcookie($token, $tokenValue, time() + 180, "/"); // 7200 For 2 hours
+        setcookie($id, $idValue, time() + 180, "/"); // 7200 For 2 hours
         echo json_encode(array('token' => $token, 'tokenValue' => $tokenValue));
     } else {
         echo json_encode(array('message' => 'User Not found', 'status' => 'false'));
