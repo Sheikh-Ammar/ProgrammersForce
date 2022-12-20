@@ -18,7 +18,7 @@ class StudentFactory extends Factory
     public function definition()
     {
         return [
-            'name' => fake()->name(),
+            'fullname' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'cnic' => Str::random(13),
             'number' => fake()->phoneNumber(),
