@@ -46,5 +46,7 @@ Route::get('/mail/test', [MailController::class, 'testMail']);
 Route::get('/jobs-queue/test', [MailController::class, 'testJobsQueue']);
 
 // EVENTS AND LISTENERS
-
 Route::get('/event-listners/test', [MailController::class, 'testEventListners']);
+
+// NOTIFICATIONS
+Route::get('/notification-mail/test', [MailController::class, 'testNotificationMail']);
