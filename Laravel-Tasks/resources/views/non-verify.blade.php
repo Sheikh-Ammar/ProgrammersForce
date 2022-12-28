@@ -22,8 +22,8 @@
                         </div>
                     </div>
                 @endif
-            
-                <h1>Welcome To Home Page</h1>
+
+                <h1>Need To Verify Email Check Email</h1>
                 </div>
             </div>
         </div>

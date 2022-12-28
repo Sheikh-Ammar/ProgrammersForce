@@ -15,4 +15,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome')->middleware('register_verify');;
+
+Route::get('/', function () {
+    return view('non-verify');
+})->name('non-verify');
