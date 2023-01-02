@@ -13,6 +13,9 @@ Email Verifivation
 Click Here  To Verify Your Email Address: 
 <a href="{{ url('api/register/verify',  $verify['token']) }}">Verify Email</a>
 
+In case If Click Button Not Work Copy Given Below Link:
+<a href={{$url}}{{ $verify['token'] }}>{{$url}}{{ $verify['token'] }}</a>
+
 Thanks,<br>
 {{ config('app.name') }}
 </x-mail::message>

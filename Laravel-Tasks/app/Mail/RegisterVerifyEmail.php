@@ -51,6 +51,7 @@ class RegisterVerifyEmail extends Mailable
             with: [
                 'user' => $this->user,
                 'verify' => $this->verification,
+                'url' => 'http://localhost:8000/api/register/verify/',
             ],
         );
     }

@@ -13,10 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome')->middleware('register_verify');;
+Route::get('/home', function () {
+    return response()->json([
+        'Message' => 'Thanks To Verify Your Mail',
+        'Web Page' => 'Home Page',
+    ]);
+})->name('welcome')->middleware('auth:sanctum', 'register_verify');
 
-Route::get('/', function () {
-    return view('non-verify');
+Route::get('/non-verify/user', function () {
+    return response()->json([
+        'Message' => 'Need To Verify Email Check Email',
+        'Web Page' => 'Non Verify Email Page',
+    ]);
 })->name('non-verify');
