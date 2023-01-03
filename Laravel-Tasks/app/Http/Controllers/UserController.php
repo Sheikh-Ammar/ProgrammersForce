@@ -49,6 +49,8 @@ class UserController extends Controller
             } else {
                 return redirect()->route('welcome')->with('message', 'Your E-mail is already verified.');
             }
+        } else {
+            return redirect()->route('non-verify');
         }
     }
 
