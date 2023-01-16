@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 // AUTHENTICATION
 Route::controller(AuthController::class)->group(function () {
     Route::post('/register', 'register')->name('register'); //PUBLIC ROUTE
+    Route::get('/register/verify/{token}', 'email_verify')->name('verify-email');
     Route::post('/login', 'login')->name('login'); //PUBLIC ROUTE
     Route::post('/logout', 'logout')->name('logout')->middleware('auth:api'); //PROTECTED AUTH ROUTE
 });

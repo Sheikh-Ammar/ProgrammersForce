@@ -7,7 +7,6 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>WELCOME TO HOME PAGE</h1>
-    <p>Thanks to verify your email</p>
+    <h1>Your Email is not verified</h1>
 </body>
 </html>
