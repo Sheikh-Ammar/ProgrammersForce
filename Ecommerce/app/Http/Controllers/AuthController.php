@@ -9,6 +9,7 @@ use App\Http\Requests\AuthRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -27,7 +28,7 @@ class AuthController extends Controller
     }
 
     // VERIFY USER EMAIL
-    public function email_verify($token)
+    public function emailVerify($token)
     {
         $user = User::where('remember_token', $token)->first();
         $message = 'Sorry your email cannot be identified.';
@@ -60,6 +61,23 @@ class AuthController extends Controller
             'message' => 'User Login Successfully !',
             'token' => $token,
         ], 200);
+    }
+
+    // RESET PASSWORD
+    public  function resetPassword(Request $request)
+    {
+        $data = $request->validate([
+            'new_password' => 'min:5',
+            'new_confirm_passsword' => 'required_with:new_password|same:new_password|min:5',
+        ]);
+        if (Auth::check()) {
+            $user = Auth::user();
+            $user->password = $request->new_password;
+            $user->save;
+            return response([
+                'message' => 'Your Password Updated Successfully !',
+            ], 200);
+        }
     }
 
     // LOGOUT USER
