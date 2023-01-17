@@ -7,6 +7,9 @@
     <title>Document</title>
 </head>
 <body>
+    @if (session()->has('status'))
+    <p> <strong>{{ session('status') }}</strong></p>
+    @endif
     <h1>WELCOME TO HOME PAGE</h1>
     <p>Thanks to verify your email</p>
 </body>

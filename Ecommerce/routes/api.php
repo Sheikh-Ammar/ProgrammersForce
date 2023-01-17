@@ -14,7 +14,9 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/register', 'register')->name('register'); //PUBLIC ROUTE
     Route::get('/register/verify/{token}', 'emailVerify')->name('verify-email'); // PUBLIC ROUTE
     Route::post('/login', 'login')->name('login'); //PUBLIC ROUTE
-    Route::post('/reset-password', 'resetPassword')->name('reset-password')->middleware('auth:api'); // PROTECTED ROU
+    Route::post('/reset-password', 'resetPassword')->name('reset-password')->middleware('auth:api'); // PROTECTED ROUTE
+    Route::post('/forget-password', 'forgetpassword')->name('forget-password'); //PUBLIC ROUTE
+    Route::post('/reset-forget-password/{token}', 'resetForgetPassword')->name('reset-forget-password'); // PUBLIC ROUTE
     Route::post('/logout', 'logout')->name('logout')->middleware('auth:api'); //PROTECTED AUTH ROUTE
 });
 

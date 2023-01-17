@@ -7,6 +7,9 @@
     <title>Document</title>
 </head>
 <body>
+    @if (session()->has('status'))
+    <p> <strong>{{ session('status') }}</strong></p>
+    @endif
     <h1>Your Email is not verified</h1>
 </body>
 </html>

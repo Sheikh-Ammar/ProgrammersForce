@@ -6,10 +6,12 @@ use App\Models\User;
 use Illuminate\Support\Str;
 use App\Events\VerifyEmailEvent;
 use App\Http\Requests\AuthRequest;
+use App\Mail\ForgetPasswordMail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -17,7 +19,7 @@ class AuthController extends Controller
     public function register(AuthRequest $request)
     {
         $validateData = $request->validated();
-        $data = array_merge($validateData, ['remember_token' =>  Str::random(30)]);
+        $data = array_merge($validateData, ['remember_token' =>  Str::random(50)]);
         $user = User::create($data);
         $token = $user->createToken('authToken')->accessToken;
         event(new VerifyEmailEvent($user));
@@ -37,12 +39,12 @@ class AuthController extends Controller
                 $user->email_verified = 1;
                 $user->email_verified_at = now();
                 $user->save();
-                return redirect()->route('welcome')->with('status', 'Your E-mail is verified.');
+                return redirect()->route('welcome')->with('status', 'Thanks To Verify Your Email');
             } else {
-                return redirect()->route('welcome')->with('message', 'Your E-mail is already verified.');
+                return redirect()->route('welcome')->with('status', 'You Already Verify Your Email');
             }
         } else {
-            return redirect()->route('non-verify');
+            return redirect()->route('non-verify')->with('status', 'Please Verify Your Email');
         }
     }
 
@@ -63,21 +65,58 @@ class AuthController extends Controller
         ], 200);
     }
 
-    // RESET PASSWORD
+    // RESET PASSWORD ONLY WHEN USER IS AUTHENTICATED
     public  function resetPassword(Request $request)
     {
         $data = $request->validate([
-            'new_password' => 'min:5',
-            'new_confirm_passsword' => 'required_with:new_password|same:new_password|min:5',
+            'password' => 'required|string|min:5|confirmed',
+            'password_confirmation' => 'required',
         ]);
         if (Auth::check()) {
             $user = Auth::user();
-            $user->password = $request->new_password;
+            $user->password = $request->password;
             $user->save;
             return response([
                 'message' => 'Your Password Updated Successfully !',
             ], 200);
         }
+    }
+
+    // FORGET PASSWORD
+    public function forgetpassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users',
+        ]);
+        $token = Str::random(50);
+        DB::table('password_resets')->insert([
+            'email' => $request->email,
+            'token' => $token,
+            'created_at' => now(),
+        ]);
+        Mail::to($request->email)->send(new ForgetPasswordMail($token));
+        return response([
+            'message' => 'Please Check Your Email For Reset Your Password',
+        ], 200);
+    }
+
+    // RESET PASSWORD FOR FORGET PASSWORD USERS
+    public function resetForgetPassword(Request $request, $token)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users',
+            'password' => 'required|string|min:5|confirmed',
+            'password_confirmation' => 'required'
+        ]);
+        $updatePassword = DB::table('password_resets')->where(['email' => $request->email, 'token' => $token])->first();
+        if (!$updatePassword) {
+            return redirect()->route('login');
+        }
+        $user = User::where('email', $request->email)->update(['password' => Hash::make($request->password)]);
+        DB::table('password_resets')->where('email', $request->email)->where('token', $token)->delete();
+        return response([
+            'message' => 'Your Password reset Successfully !',
+        ], 200);
     }
 
     // LOGOUT USER
