@@ -21,7 +21,7 @@ class Product extends Model
     // PRODUCT MANY-ONE USER
     public function user()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(User::class);
     }
 
     // PRODUCT ONE-MANY ORDERS
